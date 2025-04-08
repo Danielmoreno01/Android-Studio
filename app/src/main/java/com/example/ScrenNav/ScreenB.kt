@@ -1,40 +1,49 @@
 package com.example.ScrenNav
 
-import android.net.Uri
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 
-
 @Composable
-fun ScreenB(navController: NavController, nombre: String, correo: String, profesion: String) {
+fun ScreenB(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+            .padding(16.dp)
     ) {
-        Text(text = "Bienbreniv@")
+        Text("Registros", style = MaterialTheme.typography.headlineMedium)
         Spacer(modifier = Modifier.height(16.dp))
-        Text(text = "Nombre: ${Uri.decode(nombre)}")
-        Text(text = "Correo: ${Uri.decode(correo)}")
-        Text(text = "Profesión: ${Uri.decode(profesion)}")
 
-        Spacer(modifier = Modifier.height(24.dp))
+        LazyColumn {
+            items(registros) { registro ->
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
+                    elevation = CardDefaults.cardElevation(4.dp)
+                ) {
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Text("Nombre: ${registro.nombre}")
+                        Text("Correo: ${registro.correo}")
+                        Text("Profesión: ${registro.profesion}")
+                    }
+                }
+            }
+        }
 
-        Button(onClick = { navController.popBackStack() }) {
-            Text(text = "Volver")
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(
+            onClick = { navController.popBackStack() },
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        ) {
+            Text("Volver")
         }
     }
 }
